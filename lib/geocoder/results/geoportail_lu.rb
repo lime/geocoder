@@ -59,11 +59,16 @@ module Geocoder::Result
     private
 
     def geolocalized?
-      try_to_extract('coordinates', geomlonlat).present?
+      coordinates = try_to_extract('coordinates', geomlonlat)
+      !coordinates.nil? && !coordinates.empty?
     end
 
     def try_to_extract(key, nullable_hash)
-      nullable_hash.try(:[], key)
+      if nullable_hash.nil?
+        nil
+      else
+        nullable_hash[key]
+      end
     end
   end
 end
